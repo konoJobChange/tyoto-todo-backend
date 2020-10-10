@@ -47,7 +47,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: redoc-static.html
-          path: ./public/redoc-static.html
+          path: ./public/index.html
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
