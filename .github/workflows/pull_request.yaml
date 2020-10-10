@@ -21,7 +21,7 @@ jobs:
       - name: run lint
         uses: actions/setup-node@v1
         with:
-          node-version: 10.x
+          node-version: 12.x
       - run: yarn install
       - run: yarn lint
   build:
@@ -36,7 +36,7 @@ jobs:
       - name: setup-node
         uses: actions/setup-node@v1
         with:
-          node-version: 10.x
+          node-version: 12.x
       - name: package install
         run: yarn install
       - name: Build
