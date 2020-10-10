@@ -88,7 +88,14 @@ router.post('/users/:uid/todos', async (req, res) => {
         update_at: admin.firestore.Timestamp.now(),
         create_at: admin.firestore.Timestamp.now(),
     })
-    res.json((await result.get()).data());
+    const resultData = (await result.get()).data();
+    
+    res.json({
+      ...resultData,
+      id: result.id,
+      update_at: resultData!.update_at.toDate().toISOString(),
+      create_at: resultData!.create_at.toDate().toISOString(),
+    });
 })
 
 router.get("/users/:uid/todos/:todoId", async (req, res) => {
