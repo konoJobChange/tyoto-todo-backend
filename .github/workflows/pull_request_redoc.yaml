@@ -49,6 +49,9 @@ jobs:
           name: redoc-static.html
           path: ./public/apidoc
       - name: ls
+        run: ls -la ./public
+      - name: Rename file
+      - name: ls
         run: ls -la ./public/apidoc
       - name: Rename file
         # Download Artifactで./public/apidoc/index.htmlを指定すると、そういうディレクトリにzip展開されるので、renameする
