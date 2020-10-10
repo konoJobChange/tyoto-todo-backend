@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: redoc-static.html
-          path: redoc-static.html
+          path: ./swagger/redoc-static.html
   deploy:
     name: Deploy
     needs: build
@@ -47,7 +47,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: redoc-static.html
-          path: redoc-static.html
+          path: ./public/redoc-static.html
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
