@@ -44,7 +44,7 @@ jobs:
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
-          name: lib
+          name: build source
           path: ./functions/lib
   deploy:
       name: Deploy
@@ -56,6 +56,8 @@ jobs:
           with:
             # 該当するプルリクの最新のcommitを取得
             ref: ${{ github.event.pull_request.head.sha }}
+        - name: package install
+          run: yarn install
         - name: Deploy to Firebase
           uses: w9jds/firebase-action@master
           with:
