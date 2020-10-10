@@ -1,0 +1,128 @@
+openapi: "3.0.0"
+info:
+  title: ちょっとすごいTODOのAPI
+  description: わはははは
+  termsOfService: 'https://github.com/konowohagemasuheya/tyoto_todo'
+  version: 1.0.1
+paths:
+  /tyotos/users/:uid/todos:
+    get:
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ToDo"
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequestToDo"
+      responses:
+          200:
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ToDo"
+  /tyotos/users/:uid/todos/:todoId:
+    get:
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          description: User ID
+          schema:
+            type: string
+        - in: path
+          name: todoId
+          required: true
+          description: ToDo ID
+          schema:
+            type: string    
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ToDo"
+        404:
+          description: Not Found
+    patch:
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          description: User ID
+          schema:
+            type: string
+        - in: path
+          name: todoId
+          required: true
+          description: ToDo ID
+          schema:
+            type: string  
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequestToDo"
+      responses:
+        200:
+          description: OK
+    delete:
+        responses:
+          200:
+            description: OK
+          404:
+            description: Not Found
+components:
+  schemas:
+    RequestToDo:
+      type: object
+      required:
+          - title
+      properties:
+        title:
+          type: string
+          example: ちょっとToDo
+        detail:
+          type: string
+          example: 詳細詳細詳細詳細
+    ToDo:
+      type: object
+      required:
+        - id
+        - create_at
+      properties:
+        id:
+          type: number
+          example: 1
+        title:
+          description: タイトル
+          required:
+            - title
+          type: string
+          example: タスク1
+        detail:
+          description: 詳細テキスト
+          required:
+            - detail
+          type: string
+          example: 'これこれをやる'
+        create_at:
+          description: 作成日時
+          type: string
+          format: date-time
+        update_at:
+          description: 更新日時
+          nullable: true
+          type: string
+          format: date-time
