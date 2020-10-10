@@ -65,6 +65,7 @@ router.get("/users/:uid/todos", async (req, res) => {
   const snap = await admin
     .firestore()
     .collection(`users/${req.params.uid}/todos`)
+    .orderBy('create_at', 'asc')
     .get();
   res.json(
     snap.docs.map((doc) => ({
