@@ -50,7 +50,6 @@ jobs:
           path: ./public/apidoc
       - name: ls
         run: ls -la ./public
-      - name: Rename file
       - name: ls
         run: ls -la ./public/apidoc
       - name: Rename file
