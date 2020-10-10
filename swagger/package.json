@@ -1,0 +1,16 @@
+{
+  "name": "swagger",
+  "version": "1.0.0",
+  "description": "Swaggerはここに書くよ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "export": "redoc-cli bundle tyoto_todo.yaml"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "redoc-cli": "^0.9.12"
+  }
+}

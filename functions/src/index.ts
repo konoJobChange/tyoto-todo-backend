@@ -75,6 +75,17 @@ router.get("/users/:uid/todos", async (req, res) => {
   );
 });
 
+router.post('/users/:uid/todos', async (req, res) => {
+    const collectionRef = admin.firestore().collection(`users/${req.params.uid}/todos`);
+    const data = req.body;
+    const result = await collectionRef.add({
+        ...data,
+        update_at: null,
+        create_at: admin.firestore.Timestamp.now(),
+    })
+    res.json((await result.get()).data());
+})
+
 router.get("/users/:uid/todos/:todoId", async (req, res) => {
   const doc = await admin
     .firestore()
