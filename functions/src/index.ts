@@ -28,8 +28,7 @@ function errorMiddleware(
 app.use(errorMiddleware);
 
 app.use(cors());
-
-console.log("akafoa");
+app.use(express.json());
 
 async function authMiddleware(
   req: express.Request,
@@ -97,7 +96,10 @@ router.get("/users/:uid/todos/:todoId", async (req, res) => {
     .doc(`users/${req.params.uid}/todos/${req.params.todoId}`)
     .get();
   const data = doc.data();
-  if (data == null) return res.sendStatus(404);
+  if (data == null) {
+    res.sendStatus(404);
+    return;
+  }
   res.json({
     ...data,
     id: doc.id,
@@ -112,7 +114,10 @@ router.patch("/users/:uid/todos/:todoId", async (req, res) => {
   .firestore()
   .doc(`users/${req.params.uid}/todos/${req.params.todoId}`);
   const snap = await ref.get();
-  if (!snap.exists) return res.sendStatus(404);
+  if (!snap.exists) {
+    res.sendStatus(404)
+    return;
+  }
   await ref.set({
       ...data,
       update_at: admin.firestore.Timestamp.now(),
@@ -125,7 +130,10 @@ router.delete("/users/:uid/todos/:todoId", async (req, res) => {
   .firestore()
   .doc(`users/${req.params.uid}/todos/${req.params.todoId}`);
   const snap = await ref.get();
-  if (!snap.exists) return res.sendStatus(404);
+  if (!snap.exists) {
+    res.sendStatus(404);
+    return;
+  }
   await ref
     .delete();
   res.sendStatus(200);
