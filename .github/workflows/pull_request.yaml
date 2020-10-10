@@ -9,6 +9,9 @@ jobs:
   lint-check:
     name: コードのlintチェック
     runs-on: ubuntu-latest
+    defaults:
+        run:
+          working-directory: ./functions
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
