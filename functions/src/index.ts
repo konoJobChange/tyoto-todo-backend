@@ -53,6 +53,14 @@ async function authMiddleware(
 app.use(authMiddleware);
 
 const router = express.Router();
+
+router.get('/users', (req, res) => {
+    res.json({
+        message: 'hello users. this is dummy endpoint!!',
+        status: 200,
+    })
+})
+
 router.get("/users/:uid/todos", async (req, res) => {
   const snap = await admin
     .firestore()
