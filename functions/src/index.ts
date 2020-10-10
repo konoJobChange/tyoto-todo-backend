@@ -68,10 +68,15 @@ router.get("/users/:uid/todos", async (req, res) => {
     .orderBy('update_at', 'desc')
     .get();
   res.json(
-    snap.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }))
+    snap.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        ...data,
+        id: doc.id,
+        update_at: data.update_at.toDate().toISOString(),
+        create_at: data.create_at.toDate().toISOString(),
+      }
+    })
   );
 });
 
@@ -80,7 +85,7 @@ router.post('/users/:uid/todos', async (req, res) => {
     const data = req.body;
     const result = await collectionRef.add({
         ...data,
-        update_at: null,
+        update_at: admin.firestore.Timestamp.now(),
         create_at: admin.firestore.Timestamp.now(),
     })
     res.json((await result.get()).data());
@@ -91,10 +96,39 @@ router.get("/users/:uid/todos/:todoId", async (req, res) => {
     .firestore()
     .doc(`users/${req.params.uid}/todos/${req.params.todoId}`)
     .get();
+  const data = doc.data();
+  if (data == null) return res.sendStatus(404);
   res.json({
-    ...doc.data(),
+    ...data,
     id: doc.id,
+    update_at: data.update_at.toDate().toISOString(),
+    create_at: data.create_at.toDate().toISOString(),
   });
+});
+
+router.patch("/users/:uid/todos/:todoId", async (req, res) => {
+  const data = req.body;
+  const ref = admin
+  .firestore()
+  .doc(`users/${req.params.uid}/todos/${req.params.todoId}`);
+  const snap = await ref.get();
+  if (!snap.exists) return res.sendStatus(404);
+  await ref.set({
+      ...data,
+      update_at: admin.firestore.Timestamp.now(),
+    }, {merge: true});
+  res.sendStatus(200);
+});
+
+router.delete("/users/:uid/todos/:todoId", async (req, res) => {
+  const ref = admin
+  .firestore()
+  .doc(`users/${req.params.uid}/todos/${req.params.todoId}`);
+  const snap = await ref.get();
+  if (!snap.exists) return res.sendStatus(404);
+  await ref
+    .delete();
+  res.sendStatus(200);
 });
 
 app.use(router);
