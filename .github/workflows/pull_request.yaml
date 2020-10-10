@@ -56,11 +56,6 @@ jobs:
           with:
             # 該当するプルリクの最新のcommitを取得
             ref: ${{ github.event.pull_request.head.sha }}
-        - name: Download Artifact
-          uses: actions/download-artifact@master
-          with:
-            name: lib
-            path: ./functions/lib
         - name: Deploy to Firebase
           uses: w9jds/firebase-action@master
           with:
