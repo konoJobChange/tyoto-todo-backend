@@ -48,8 +48,8 @@ jobs:
         with:
           name: redoc-static.html
           path: ./public/apidoc
-      - name: ls
-        run: ls -la ./public
+      - name: find
+        run: find . -type d -maxdepth 2
       - name: ls
         run: ls -la ./public/apidoc
       - name: Rename file
