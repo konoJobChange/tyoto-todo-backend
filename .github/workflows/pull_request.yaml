@@ -40,7 +40,7 @@ jobs:
       - name: package install
         run: yarn install
       - name: Build
-        run: yearn build
+        run: yarn build
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
