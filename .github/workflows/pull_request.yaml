@@ -5,6 +5,8 @@ on:
     types: [opened, synchronize]
     branches:
       - main
+    paths:
+      - "functions/**"
 defaults:
   run:
     working-directory: ./functions
