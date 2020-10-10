@@ -1,0 +1,23 @@
+name: Create PullRequest or Commit
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - master
+jobs:
+  lint-check:
+    name: コードのlintチェック
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          # 該当するプルリクの最新のcommitを取得
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: run lint
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - run: yarn install
+      - run: yarn lint
