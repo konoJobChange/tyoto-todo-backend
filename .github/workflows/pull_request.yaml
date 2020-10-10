@@ -33,10 +33,12 @@ jobs:
         with:
           # 該当するプルリクの最新のcommitを取得
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: run lint
+      - name: setup-node
         uses: actions/setup-node@v1
         with:
           node-version: 10.x
+      - name: package install
+        run: yarn install
       - name: Build
         run: yearn build
       - name: Archive Production Artifact
