@@ -48,13 +48,10 @@ jobs:
         with:
           name: redoc-static.html
           path: ./public/apidoc
-      - name: find
-        run: find . -type d -maxdepth 2
-      - name: ls
-        run: ls -la ./public/apidoc
       - name: Rename file
-        # Download Artifactで./public/apidoc/index.htmlを指定すると、そういうディレクトリにzip展開されるので、renameする
-        run: mv ./public/apidoc/redoc-static.html ./public/apidoc/index.html
+        # Download Artifactで./p ublic/apidoc/index.htmlを指定すると、そういうディレクトリにzip展開されるので、renameする
+        run: mv redoc-static.html index.html
+        working-directory: ./public/apidoc
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
