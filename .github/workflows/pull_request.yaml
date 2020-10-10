@@ -24,3 +24,44 @@ jobs:
           node-version: 10.x
       - run: yarn install
       - run: yarn lint
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          # 該当するプルリクの最新のcommitを取得
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: run lint
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - name: Build
+        run: yearn build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: dist
+  deploy:
+      name: Deploy
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+          with:
+            # 該当するプルリクの最新のcommitを取得
+            ref: ${{ github.event.pull_request.head.sha }}
+        - name: Download Artifact
+          uses: actions/download-artifact@master
+          with:
+            name: dist
+            path: dist
+        - name: Deploy to Firebase
+          uses: w9jds/firebase-action@master
+          with:
+            args: deploy --only "functions:tyotos"
+          env:
+            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
